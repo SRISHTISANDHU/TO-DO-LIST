@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="lili .css">
+</head>
+<body>
+    <div class="todo">
+        <div class="title">
+            <h1>To-do List</h1>
+            <div class="search-bar">
+                <i class="fa fa-search" aria-hidden="true"></i>
+                <input type="text" id="searchBar" placeholder="Search tasks..." aria-label="Search tasks" />
+            </div>
+        </div>
+        <div class="add-task">
+            <input type="text" id="todoInput" placeholder="Add your task" aria-label="Add a new task" />
+            <button id="addBtn" aria-label="Add task">Add</button>
+        </div>
+        <ul id="todoList" aria-live="polite" aria-label="To-do list"></ul>
+    </div>
+    
+    <script>
+
+
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const todoInput = document.getElementById("todoInput");
+            const addBtn = document.getElementById("addBtn");
+            const todoList = document.getElementById("todoList");
+            const searchBar = document.getElementById("searchBar");
+            let todo = JSON.parse(localStorage.getItem("todo")) || [];
+
+            // Initialize event listeners
+            addBtn.addEventListener("click", addTask);
+            todoInput.addEventListener("keydown", function (event) {
+                if (event.key === "Enter") {
+                    event.preventDefault();
+                    addTask();
+                }
+            });
+            searchBar.addEventListener("input", searchTask);
+
+            // Display tasks initially
+            displayTasks();
+
+            function addTask() {
+                const newTask = todoInput.value.trim();
+                if (newTask !== "") {
+                    todo.push({ text: newTask, disabled: false });
+                    saveToLocalStorage();
+                    todoInput.value = "";
+                    displayTasks();
+                }
+            }
+
+            function displayTasks(filteredTasks = null) {
+                todoList.innerHTML = "";
+                const tasksToDisplay = filteredTasks || todo;
+
+                if (tasksToDisplay.length === 0) {
+                    todoList.innerHTML = "<li>Not available</li>";
+                    return;
+                }
+
+                tasksToDisplay.forEach((item, index) => {
+                    const li = document.createElement("li");
+                    li.innerHTML = `
+                <div class="radio-btn">
+                    <input type="radio" class="todo-radio" id="input-${index}" ${item.disabled ? "checked" : ""}/>
+                    <label for="input-${index}"></label>
+                </div>
+                <p id="todo-${index}" class="${item.disabled ? "disabled" : ""}">${item.text}</p>
+                <div class="todo-options">
+                    <i class="fa fa-ellipsis-v"></i>
+                    <div class="dropdown-content">
+                        <button class="edit-btn" data-index="${index}">Edit</button>
+                        <button class="delete-btn" data-index="${index}">Delete</button>
+                    </div>
+                </div>`;
+
+                    // Attach event listeners
+                    li.querySelector(".todo-radio").addEventListener("change", () => toggleTask(index));
+                    li.querySelector(".edit-btn").addEventListener("click", () => editTask(index));
+                    li.querySelector(".delete-btn").addEventListener("click", () => deleteTask(index));
+
+                    todoList.appendChild(li);
+                });
+            }
+
+            function toggleTask(index) {
+                todo[index].disabled = !todo[index].disabled;
+                saveToLocalStorage();
+                displayTasks();
+            }
+
+            function editTask(index) {
+                const todoItem = document.getElementById(`todo-${index}`);
+                const existingText = todo[index].text;
+                const inputElement = document.createElement("input");
+                inputElement.value = existingText;
+
+                todoItem.replaceWith(inputElement);
+                inputElement.focus();
+
+                inputElement.addEventListener("blur", function () {
+                    const updatedText = inputElement.value.trim();
+                    if (updatedText) {
+                        todo[index].text = updatedText;
+                        saveToLocalStorage();
+                    }
+                    displayTasks();
+                });
+            }
+
+            function deleteTask(index) {
+                todo.splice(index, 1);
+                saveToLocalStorage();
+                displayTasks();
+            }
+
+            function saveToLocalStorage() {
+                localStorage.setItem("todo", JSON.stringify(todo));
+            }
+
+            function searchTask() {
+                const query = searchBar.value.toLowerCase();
+                const filteredTasks = todo.filter(task => task.text.toLowerCase().includes(query));
+                displayTasks(filteredTasks);
+            }
+        });
+    </script>
+
+</body>
+
+</html>

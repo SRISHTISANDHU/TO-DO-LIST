@@ -1,0 +1,164 @@
+body {
+    font-family: sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f4f4f4;
+    margin: 0;
+  }
+  
+  .todo {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 400px;
+  }
+  
+  .title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .title h1 {
+    font-size: 18px;
+    margin: 0;
+    color: #333;
+  }
+  
+  .search-bar {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    padding: 0.5rem;
+    border-radius: 50px;
+    border: 1px solid #ccc;
+  }
+  
+  .search-bar input {
+    flex: 1;
+    padding: 8px;
+    border: none;
+    border-radius: 50px;
+    font-size: 14px;
+    outline: none;
+  }
+  
+  .search-bar i {
+    padding: 10px;
+    font-size: 14px;
+  }
+  
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+  }
+  
+  .todo-options {
+    position: relative;
+    cursor: pointer;
+  }
+  
+  .todo-options .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 100px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+  }
+  
+  .todo-options:hover .dropdown-content {
+    display: block;
+  }
+  
+  .dropdown-content button {
+    width: 100%;
+    background-color: white;
+    border: none;
+    padding: 0.7rem;
+    cursor: pointer;
+    font-size: 12px;
+  }
+  
+  .dropdown-content button:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .add-task {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    border-radius: 50px;
+    border: 1px solid #ccc;
+    padding: 10px;
+  }
+  
+  .add-task input {
+    flex: 1;
+    padding: 8px;
+    border: none;
+    border-radius: 50px;
+    font-size: 14px;
+  }
+  
+  .add-task button {
+    padding: 10px 15px;
+    background-color: #f05050;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .disabled {
+    text-decoration: line-through;
+    color: #8f98a8;
+  }
+  
+  .radio-btn {
+    position: relative;
+  }
+  
+  .radio-btn input[type="radio"] {
+    display: none;
+  }
+  
+  .radio-btn label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 18px;
+    width: 18px;
+    border-radius: 50%;
+    background-color: #f0f0f0;
+    border: 2px solid #ccc;
+    cursor: pointer;
+    transition: background-color 0.3s, border 0.3s;
+  }
+  
+  .radio-btn input[type="radio"]:checked + label {
+    background-color: #f05050;
+    border: 2px solid #f05050;
+  }
+  
+  .radio-btn input[type="radio"]:checked + label + p {
+    color: #f05050;
+    text-decoration: line-through;
+  }
+
+  
